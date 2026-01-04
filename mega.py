@@ -1,3 +1,45 @@
+# --- Riddle Me This Minigame ---
+riddles = [
+    ("What has keys but can't open locks?", "piano" or "null"),
+    ("What has a heart that doesn’t beat?", "artichoke" or "null"),
+    ("What can travel around the world while staying in a corner?", "stamp" or "null"),
+    ("What gets wetter the more it dries?", "towel" or "null"),
+    ("What has hands but can’t clap?", "clock" or "null"),
+    ("What has a neck but no head?", "bottle" or "null"),
+    ("What has an eye but cannot see?", "needle" or "null"),
+    ("What has one head, one foot, and four legs?", "bed" or "null"),
+    ("What comes once in a minute, twice in a moment, but never in a thousand years?", "m" or "null"),
+    ("What belongs to you but others use it more than you do?", "name" or "null"),
+]
+
+active_riddle = None
+active_riddle_answer = None
+answered_riddle = False
+
+def start_riddle():
+    global active_riddle, active_riddle_answer, answered_riddle
+    active_riddle, active_riddle_answer = random.choice(riddles)
+    answered_riddle = False
+    chat(f"[Riddle Me This] {active_riddle}")
+
+def riddle_handler(msg_content, username):
+    global active_riddle, active_riddle_answer, answered_riddle
+    if msg_content.lower().startswith("!riddle"):
+        if not active_riddle:
+            start_riddle()
+        else:
+            chat("[Riddle Me This] A riddle is already active!")
+        return True
+    if active_riddle and not answered_riddle:
+        guess = msg_content.lower().replace(" ", "")
+        answer = active_riddle_answer.lower().replace(" ", "")
+        if guess == answer or guess == "null":
+            chat(f"[Riddle Me This] {username} got it! The answer was '{active_riddle_answer}'.")
+            active_riddle = None
+            active_riddle_answer = None
+            answered_riddle = True
+            return True
+    return False
 # Mega Minigames Script for Minescript
 import random
 import minescript # type: ignore
@@ -211,7 +253,7 @@ def roulette_handler(msg_content, username):
     return False
 
 # --- Main Event Loop ---
-chat("[Mega Minigames] Script started! Available commands: !cf, !coinflip, !math, !unscramble, !uc, !guess, !guess easy, !guess hard, !roulette <red|black|green|0-36>(4 min cooldown), !blackjack/!21(4 min cooldown)")
+chat("[Mega Minigames] Script started! Available commands: !cf, !coinflip, !math, !unscramble, !uc, !guess, !guess easy, !guess hard, !roulette <red|black|green|0-36>(4 min cooldown), !blackjack/!21(4 min cooldown), !riddle. MADE BY DDAW999")
 with EventQueue() as event_queue:
     event_queue.register_chat_listener()
     while True:
@@ -235,4 +277,6 @@ with EventQueue() as event_queue:
             if roulette_handler(msg_content, username):
                 continue
             if blackjack_handler(msg_content, username):
+                continue
+            if riddle_handler(msg_content, username):
                 continue
