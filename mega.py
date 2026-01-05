@@ -253,7 +253,7 @@ def roulette_handler(msg_content, username):
     return False
 
 # --- Main Event Loop ---
-chat("[Mega Minigames] Script started! Available commands: !cf, !coinflip, !math, !unscramble, !uc, !guess, !guess easy, !guess hard, !roulette <red|black|green|0-36>(4 min cooldown), !blackjack/!21(4 min cooldown), !riddle. MADE BY DDAW999")
+chat("[Mega Minigames] Script started! Available commands: !cf, !coinflip, !math, !unscramble, !uc, !guess, !guess easy, !guess hard, !roulette <red|black|green|0-36>(4 min cooldown), !blackjack/!21(4 min cooldown), !riddle. ALL CREDITS GO TO DDAW999. MADE BY DDAW999")
 with EventQueue() as event_queue:
     event_queue.register_chat_listener()
     while True:
@@ -280,3 +280,4 @@ with EventQueue() as event_queue:
                 continue
             if riddle_handler(msg_content, username):
                 continue
+
